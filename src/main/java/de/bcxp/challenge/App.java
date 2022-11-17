@@ -28,14 +28,14 @@ public final class App {
 
         // Your preparation code …
 
-        String dayWithSmallestTempSpread = TestWeatherModel(new SmallestTempSpreadComparator());   // Your day analysis function call …
+        String dayWithSmallestTempSpread = TestWeatherCSV(new SmallestTempSpreadComparator());   // Your day analysis function call …
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
 
-        String countryWithHighestPopulationDensity = TestCountryModel(new HighestDensityComparator()); // Your population density analysis function call …
+        String countryWithHighestPopulationDensity = TestCountryCSV(new HighestDensityComparator()); // Your population density analysis function call …
         System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
     }
 
-    private static String TestCountryModel(Comparator<CountryModel> comp){
+    private static String TestCountryCSV(Comparator<CountryModel> comp){
         CountryReader countryReader = new CountryReader();
         List<CountryModel> countryModels;
         try {
@@ -44,13 +44,13 @@ public final class App {
             System.out.println("Cannot find File: " + weatherFilePath);
             return null;
         }
-        
+
         CountryModel highestDensity = new Evaluator<CountryModel>(countryModels).process(comp);
 
         return highestDensity.getName();
     }
 
-    private static String TestWeatherModel(Comparator<WeatherModel> comp){
+    private static String TestWeatherCSV(Comparator<WeatherModel> comp){
         WeatherReader weatherReader = new WeatherReader();
         List<WeatherModel> weatherModels;
         try {

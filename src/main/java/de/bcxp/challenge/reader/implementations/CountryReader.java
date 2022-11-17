@@ -16,10 +16,11 @@ public class CountryReader implements CsvReader<CountryModel> {
         List<CountryModel> models = new CsvToBeanBuilder(new FileReader(filepath))
                 .withType(CountryModel.class)
                 .withSeparator(';')
-
                 .withSkipLines(1)
                 .build()
                 .parse();
+
+        models.forEach(x -> x.setPopulation(x.getPopulation().replaceAll("\\.", "").replace(",",".")));
 
         return models;
     }
