@@ -36,31 +36,18 @@ public final class App {
     }
 
     private static String TestCountryCSV(Comparator<CountryModel> comp){
-        CountryReader countryReader = new CountryReader();
-        List<CountryModel> countryModels;
-        try {
-            countryModels = countryReader.readData(countriesFilePath);
-        }catch (FileNotFoundException e){
-            System.out.println("Cannot find File: " + weatherFilePath);
-            return null;
-        }
 
-        CountryModel highestDensity = new Evaluator<CountryModel>(countryModels).process(comp);
+        Evaluator<CountryModel, String> countryEvaluator = new Evaluator<>(new CountryReader(), countriesFilePath);
+
+        CountryModel highestDensity = countryEvaluator.processListWithComparator(comp);
 
         return highestDensity.getName();
     }
 
     private static String TestWeatherCSV(Comparator<WeatherModel> comp){
-        WeatherReader weatherReader = new WeatherReader();
-        List<WeatherModel> weatherModels;
-        try {
-            weatherModels = weatherReader.readData(weatherFilePath);
-        }catch (FileNotFoundException e){
-            System.out.println("Cannot find File: " + weatherFilePath);
-            return null;
-        }
+        Evaluator<WeatherModel, String> weatherEvaluator = new Evaluator<>(new WeatherReader(), weatherFilePath);
 
-        WeatherModel smallestSpread = new Evaluator<WeatherModel>(weatherModels).process(new SmallestTempSpreadComparator());
+        WeatherModel smallestSpread = weatherEvaluator.processListWithComparator(comp);
 
         return smallestSpread.getDay().toString();
     }
