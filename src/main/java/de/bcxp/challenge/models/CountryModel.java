@@ -1,38 +1,78 @@
 package de.bcxp.challenge.models;
 
-import net.sf.jsefa.csv.annotation.CsvDataType;
-import net.sf.jsefa.csv.annotation.CsvField;
+import com.opencsv.bean.CsvBindByPosition;
 
-@CsvDataType()
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 public class CountryModel {
 
-    @CsvField(pos = 1)
+    @CsvBindByPosition(position = 0)
     String name;
 
-    @CsvField(pos = 2)
+    @CsvBindByPosition(position = 1)
     String capital;
 
-    @CsvField(pos = 3)
+    @CsvBindByPosition(position = 2)
     String accession;
 
-    @CsvField(pos = 4)
-    Integer population;
+    @CsvBindByPosition(position = 3)
+    String population;
 
-    @CsvField(pos = 5)
+    @CsvBindByPosition(position = 4)
     Long area;
 
     /**
      * IN US$ / M
      */
-    @CsvField(pos = 6)
+    @CsvBindByPosition(position = 5)
     Double gdp;
 
     /**
      * Human development index
      */
-    @CsvField(pos = 7)
+    @CsvBindByPosition(position = 6)
     Double hdi;
 
-    @CsvField(pos = 8)
+    @CsvBindByPosition(position = 7)
     Integer europeanParliamentMembersCount;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPopulation() {
+        return population.replaceAll("\\.", "");
+    }
+
+    public void setPopulation(String population) {
+        this.population = population;
+    }
+
+    public Long getArea() {
+        return area;
+    }
+
+    public void setArea(Long area) {
+        this.area = area;
+    }
+
+    @Override
+    public String toString() {
+        return "CountryModel{" +
+                "name='" + name + '\'' +
+                ", capital='" + capital + '\'' +
+                ", accession='" + accession + '\'' +
+                ", population=" + population +
+                ", area=" + area +
+                ", gdp=" + gdp +
+                ", hdi=" + hdi +
+                ", europeanParliamentMembersCount=" + europeanParliamentMembersCount +
+                '}';
+    }
 }

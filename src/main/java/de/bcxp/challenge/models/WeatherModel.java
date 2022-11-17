@@ -1,54 +1,103 @@
 package de.bcxp.challenge.models;
+import com.opencsv.bean.CsvBindByPosition;
 
-import net.sf.jsefa.csv.annotation.CsvDataType;
-import net.sf.jsefa.csv.annotation.CsvField;
+import java.io.Serializable;
 
-@CsvDataType()
-public class WeatherModel {
+public class WeatherModel implements Serializable {
 
-    @CsvField(pos = 1)
+    @CsvBindByPosition(position = 0)
     Integer day;
 
-    @CsvField(pos = 2)
+    @CsvBindByPosition(position = 1)
     Integer maxTemperature;
 
-    @CsvField(pos = 3)
+    @CsvBindByPosition(position = 2)
     Integer minTemperature;
 
-    @CsvField(pos = 4)
-    Double averageTemperature;
+    @CsvBindByPosition(position = 3)
+    Integer averageTemperature;
 
     //Maybe averageDataPoints
-    @CsvField(pos = 5)
+    @CsvBindByPosition(position = 4)
     Double avDP;
 
-    @CsvField(pos = 6)
-    Integer oneHourP;
+    @CsvBindByPosition(position = 5)
+    Integer oneHourPTPcpn;
 
-    @CsvField(pos = 7)
-    Integer TPcpn;
-
-    @CsvField(pos = 8)
+    @CsvBindByPosition(position = 6)
     Integer PDir;
 
-    @CsvField(pos = 9)
-    Integer avSP;
+    @CsvBindByPosition(position = 7)
+    Double avSP;
 
-    @CsvField(pos = 10)
+    @CsvBindByPosition(position = 8)
     Integer dir;
 
-    @CsvField(pos = 11)
+    @CsvBindByPosition(position = 9)
     Integer mxS;
 
-    @CsvField(pos = 12)
-    Integer skyC;
+    @CsvBindByPosition(position = 10)
+    Double skyC;
 
-    @CsvField(pos = 13)
+    @CsvBindByPosition(position = 11)
     Integer mxR;
 
-    @CsvField(pos = 14)
+    @CsvBindByPosition(position = 12)
     Integer mn;
 
-    @CsvField(pos = 15)
-    Integer rAvSLP;
+    @CsvBindByPosition(position = 13)
+    Double rAvSLP;
+
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Integer getMaxTemperature() {
+        return maxTemperature;
+    }
+
+    public void setMaxTemperature(Integer maxTemperature) {
+        this.maxTemperature = maxTemperature;
+    }
+
+    public Integer getMinTemperature() {
+        return minTemperature;
+    }
+
+    public void setMinTemperature(Integer minTemperature) {
+        this.minTemperature = minTemperature;
+    }
+
+    public Integer getAverageTemperature() {
+        return averageTemperature;
+    }
+
+    public void setAverageTemperature(Integer averageTemperature) {
+        this.averageTemperature = averageTemperature;
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherModel{" +
+                "day=" + day +
+                ", maxTemperature=" + maxTemperature +
+                ", minTemperature=" + minTemperature +
+                ", averageTemperature=" + averageTemperature +
+                ", avDP=" + avDP +
+                ", oneHourPTPcpn=" + oneHourPTPcpn +
+                ", PDir=" + PDir +
+                ", avSP=" + avSP +
+                ", dir=" + dir +
+                ", mxS=" + mxS +
+                ", skyC=" + skyC +
+                ", mxR=" + mxR +
+                ", mn=" + mn +
+                ", rAvSLP=" + rAvSLP +
+                '}';
+    }
 }
