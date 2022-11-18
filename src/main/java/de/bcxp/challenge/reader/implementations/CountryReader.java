@@ -1,24 +1,32 @@
 package de.bcxp.challenge.reader.implementations;
 
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import de.bcxp.challenge.models.CountryModel;
-import de.bcxp.challenge.reader.interfaces.CsvReader;
+import de.bcxp.challenge.models.CsvParameterDto;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CountryReader implements CsvReader<CountryModel> {
+public class CountryReader extends AbstractCsvReader<CountryModel> {
 
     @Override
-    public List<CountryModel> readData(String filepath) throws FileNotFoundException {
+    public List<CountryModel> readData(CsvParameterDto parameter) throws FileNotFoundException, CsvDataTypeMismatchException {
+        List<CountryModel> models;
 
-        List<CountryModel> models = new CsvToBeanBuilder(new FileReader(filepath))
-                .withType(CountryModel.class)
-                .withSeparator(';')
-                .withSkipLines(1)
-                .build()
-                .parse();
+        try {
+            models = super.readData(parameter);
+        }catch (FileNotFoundException e){
+            System.out.println("Cannot find the file specified in: " + parameter.getFilePath());
+            return null;
+        }catch (CsvDataTypeMismatchException e){
+            System.out.println("Cannot parse datatype " + e.getSourceObject() + " to " + e.getDestinationClass().getName());
+            return null;
+        }
+
+        if(models == null){
+            return null;
+        }
 
         models.forEach(x -> x.setPopulation(x.getPopulation().replaceAll("\\.", "").replace(",",".")));
 

@@ -2,6 +2,7 @@ package de.bcxp.challenge;
 
 import de.bcxp.challenge.comparator.HighestDensityComparator;
 import de.bcxp.challenge.comparator.SmallestTempSpreadComparator;
+import de.bcxp.challenge.models.CsvParameterDto;
 import de.bcxp.challenge.reader.implementations.CountryReader;
 import de.bcxp.challenge.reader.implementations.WeatherReader;
 import de.bcxp.challenge.models.CountryModel;
@@ -37,17 +38,31 @@ public final class App {
 
     private static String TestCountryCSV(Comparator<CountryModel> comp){
 
-        Evaluator<CountryModel, String> countryEvaluator = new Evaluator<>(new CountryReader(), countriesFilePath);
+        CsvParameterDto parameterDto = new CsvParameterDto(countriesFilePath, ';', CountryModel.class);
+
+        Evaluator<CountryModel, CsvParameterDto> countryEvaluator = new Evaluator<>(new CountryReader(), parameterDto);
 
         CountryModel highestDensity = countryEvaluator.processListWithComparator(comp);
+
+        if(highestDensity == null){
+            System.out.println("Something went wrong parsing the CSV");
+            return null;
+        }
 
         return highestDensity.getName();
     }
 
     private static String TestWeatherCSV(Comparator<WeatherModel> comp){
-        Evaluator<WeatherModel, String> weatherEvaluator = new Evaluator<>(new WeatherReader(), weatherFilePath);
+        CsvParameterDto parameterDto = new CsvParameterDto(weatherFilePath, ',', WeatherModel.class);
+
+        Evaluator<WeatherModel, CsvParameterDto> weatherEvaluator = new Evaluator<>(new WeatherReader(), parameterDto);
 
         WeatherModel smallestSpread = weatherEvaluator.processListWithComparator(comp);
+
+        if(smallestSpread == null){
+            System.out.println("Something went wrong parsing the CSV");
+            return null;
+        }
 
         return smallestSpread.getDay().toString();
     }
