@@ -19,7 +19,6 @@ public abstract class AbstractCsvReader<T> implements ICsvReader<T> {
                 .withSkipLines(1)
                 .build()
                 .parse();
-
         return models;
     }
 }

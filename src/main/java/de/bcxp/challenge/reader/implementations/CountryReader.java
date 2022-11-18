@@ -5,13 +5,12 @@ import de.bcxp.challenge.models.CountryModel;
 import de.bcxp.challenge.models.CsvParameterDto;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CountryReader extends AbstractCsvReader<CountryModel> {
 
     @Override
-    public List<CountryModel> readData(CsvParameterDto parameter) throws FileNotFoundException, CsvDataTypeMismatchException {
+    public List<CountryModel> readData(CsvParameterDto parameter) {
         List<CountryModel> models;
 
         try {
@@ -22,9 +21,8 @@ public class CountryReader extends AbstractCsvReader<CountryModel> {
         }catch (CsvDataTypeMismatchException e){
             System.out.println("Cannot parse datatype " + e.getSourceObject() + " to " + e.getDestinationClass().getName());
             return null;
-        }
-
-        if(models == null){
+        }catch (Exception e){
+            System.out.println("An unspecified Exception occured." + e.getMessage());
             return null;
         }
 
