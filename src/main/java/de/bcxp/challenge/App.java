@@ -28,42 +28,24 @@ public final class App {
     public static void main(String... args) {
 
         // Your preparation code …
+        CsvParameterDto weatherParameterDto = new CsvParameterDto(weatherFilePath, ',', WeatherModel.class);
 
-        String dayWithSmallestTempSpread = TestWeatherCSV(new SmallestTempSpreadComparator());   // Your day analysis function call …
+        WeatherModel weatherModel = new EvaluatorBuilder<WeatherModel, CsvParameterDto>()
+                .WithComparator(new SmallestTempSpreadComparator())
+                .UseReader(new WeatherReader())
+                .process(weatherParameterDto);
+
+        CsvParameterDto countryParameterDto = new CsvParameterDto(countriesFilePath, ';', CountryModel.class);
+
+        CountryModel countryModel = new EvaluatorBuilder<CountryModel, CsvParameterDto>()
+                .WithComparator(new HighestDensityComparator())
+                .UseReader(new CountryReader())
+                .process(countryParameterDto);
+
+        String dayWithSmallestTempSpread = weatherModel.getDay().toString();   // Your day analysis function call …
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
 
-        String countryWithHighestPopulationDensity = TestCountryCSV(new HighestDensityComparator()); // Your population density analysis function call …
+        String countryWithHighestPopulationDensity = countryModel.getName(); // Your population density analysis function call …
         System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
-    }
-
-    private static String TestCountryCSV(Comparator<CountryModel> comp){
-
-        CsvParameterDto parameterDto = new CsvParameterDto(countriesFilePath, ';', CountryModel.class);
-
-        Evaluator<CountryModel, CsvParameterDto> countryEvaluator = new Evaluator<>(new CountryReader(), parameterDto);
-
-        CountryModel highestDensity = countryEvaluator.processListWithComparator(comp);
-
-        if(highestDensity == null){
-            System.out.println("Something went wrong parsing the CSV");
-            return null;
-        }
-
-        return highestDensity.getName();
-    }
-
-    private static String TestWeatherCSV(Comparator<WeatherModel> comp){
-        CsvParameterDto parameterDto = new CsvParameterDto(weatherFilePath, ',', WeatherModel.class);
-
-        Evaluator<WeatherModel, CsvParameterDto> weatherEvaluator = new Evaluator<>(new WeatherReader(), parameterDto);
-
-        WeatherModel smallestSpread = weatherEvaluator.processListWithComparator(comp);
-
-        if(smallestSpread == null){
-            System.out.println("Something went wrong parsing the CSV");
-            return null;
-        }
-
-        return smallestSpread.getDay().toString();
     }
 }

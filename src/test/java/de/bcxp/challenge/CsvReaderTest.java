@@ -1,5 +1,6 @@
 package de.bcxp.challenge;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import de.bcxp.challenge.comparator.HighestDensityComparator;
 import de.bcxp.challenge.comparator.SmallestTempSpreadComparator;
 import de.bcxp.challenge.models.CountryModel;
@@ -34,7 +35,8 @@ public class CsvReaderTest {
         CsvParameterDto dto = new CsvParameterDto(filePath, separator, type);
         try{
             assertNull(reader.readData(dto));
-        }catch (Exception e){}
+        }catch (Exception e){
+        }
     }
 
     @DisplayName("Return of readData is not null if file is existing")
@@ -44,7 +46,9 @@ public class CsvReaderTest {
         CsvParameterDto dto = new CsvParameterDto(filePath, separator, type);
         try{
             assertNotNull(reader.readData(dto));
-        }catch (Exception e){}
+        }catch (Exception e){
+            fail();
+        }
     }
 
     @MethodSource
