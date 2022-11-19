@@ -29,8 +29,11 @@ public class EvaluatorTest {
     @MethodSource("countryCSVSuccessTestProvider")
     void CountryCSVSuccessTest(Comparator<CountryModel> comp,  char separator, String result){
         CsvParameterDto parameterDto = new CsvParameterDto(countriesFilePath, separator, CountryModel.class);
-        Evaluator<CountryModel, CsvParameterDto> evaluator = new Evaluator<>(new CountryReader(), parameterDto);
-        CountryModel model = evaluator.processListWithComparator(comp);
+
+        CountryModel model = new EvaluatorBuilder<CountryModel, CsvParameterDto>()
+                .WithComparator(new HighestDensityComparator())
+                .UseReader(new CountryReader())
+                .process(parameterDto);
 
         assert model != null;
         assert model.getName().equalsIgnoreCase(result);
@@ -41,8 +44,11 @@ public class EvaluatorTest {
     @MethodSource("weatherCSVSuccessTestProvider")
     void WeatherCSVSuccessTest(Comparator<WeatherModel> comp, char separator, String result){
         CsvParameterDto parameterDto = new CsvParameterDto(weatherFilePath, separator, WeatherModel.class);
-        Evaluator<WeatherModel, CsvParameterDto> evaluator = new Evaluator<>(new WeatherReader(), parameterDto);
-        WeatherModel model = evaluator.processListWithComparator(comp);
+
+        WeatherModel model = new EvaluatorBuilder<WeatherModel, CsvParameterDto>()
+                .WithComparator(new SmallestTempSpreadComparator())
+                .UseReader(new CountryReader())
+                .process(parameterDto);
 
         assert model != null;
         assert model.getDay().toString().equalsIgnoreCase(result);
