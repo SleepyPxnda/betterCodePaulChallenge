@@ -18,36 +18,36 @@ import java.util.stream.Stream;
 
 public class EvaluatorTest {
 
-    private static String weatherFilePath = "src\\main\\resources\\de\\bcxp\\challenge\\weather.csv";
-    private static String countriesFilePath = "src\\main\\resources\\de\\bcxp\\challenge\\countries.csv";
+    private static final String WEATHER_FILE_PATH = "src\\main\\resources\\de\\bcxp\\challenge\\weather.csv";
+    private static final String COUNTRIES_FILE_PATH = "src\\main\\resources\\de\\bcxp\\challenge\\countries.csv";
 
     @BeforeEach
     void setUp() {}
 
-    @DisplayName("Test if given countrymodel comparator evaluates to result")
+    @DisplayName("Test if given country model comparator evaluates to result")
     @ParameterizedTest(name = "{index} => Comparator={0}, Result={1}")
     @MethodSource("countryCSVSuccessTestProvider")
-    void CountryCSVSuccessTest(Comparator<CountryModel> comp,  char separator, String result){
-        CsvParameterDto parameterDto = new CsvParameterDto(countriesFilePath, separator, CountryModel.class);
+    void countryCSVSuccessTest(Comparator<CountryModel> comp,  char separator, String result){
+        CsvParameterDto parameterDto = new CsvParameterDto(COUNTRIES_FILE_PATH, separator, CountryModel.class);
 
         CountryModel model = new EvaluatorBuilder<CountryModel, CsvParameterDto>()
-                .WithComparator(new HighestDensityComparator())
-                .UseReader(new CountryReader())
+                .withComparator(comp)
+                .useReader(new CountryReader())
                 .process(parameterDto);
 
         assert model != null;
         assert model.getName().equalsIgnoreCase(result);
     }
 
-    @DisplayName("Test if given weathermodel comparator evaluates to result")
+    @DisplayName("Test if given weather model comparator evaluates to result")
     @ParameterizedTest(name = "{index} => Comparator={0}, Separator={1}, Expected={2}")
     @MethodSource("weatherCSVSuccessTestProvider")
-    void WeatherCSVSuccessTest(Comparator<WeatherModel> comp, char separator, String result){
-        CsvParameterDto parameterDto = new CsvParameterDto(weatherFilePath, separator, WeatherModel.class);
+    void weatherCSVSuccessTest(Comparator<WeatherModel> comp, char separator, String result){
+        CsvParameterDto parameterDto = new CsvParameterDto(WEATHER_FILE_PATH, separator, WeatherModel.class);
 
         WeatherModel model = new EvaluatorBuilder<WeatherModel, CsvParameterDto>()
-                .WithComparator(new SmallestTempSpreadComparator())
-                .UseReader(new CountryReader())
+                .withComparator(comp)
+                .useReader(new WeatherReader())
                 .process(parameterDto);
 
         assert model != null;

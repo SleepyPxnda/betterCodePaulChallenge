@@ -8,9 +8,9 @@ public class SmallestTempSpreadComparator implements Comparator<WeatherModel> {
 
     @Override
     public int compare(WeatherModel o1, WeatherModel o2) {
-       double spreado1 = o1.getMaxTemperature() - o1.getMinTemperature();
-       double spreado2 = o2.getMaxTemperature() - o2.getMinTemperature();
+       double tempSpreadModel1 = o1.getMaxTemperature() - o1.getMinTemperature();
+       double tempSpreadModel2 = o2.getMaxTemperature() - o2.getMinTemperature();
 
-       return Double.compare(spreado2, spreado1);
+       return Double.compare(tempSpreadModel2, tempSpreadModel1);
     }
 }

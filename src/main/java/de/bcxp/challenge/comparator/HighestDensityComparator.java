@@ -7,8 +7,8 @@ import java.util.Comparator;
 public class HighestDensityComparator implements Comparator<CountryModel> {
     @Override
     public int compare(CountryModel o1, CountryModel o2) {
-        double spreado1 = Double.parseDouble(o1.getPopulation()) * o1.getArea();
-        double spreado2 = Double.parseDouble(o2.getPopulation()) * o2.getArea();
-        return Double.compare(spreado2, spreado1);
+        double densityModel1 = Double.parseDouble(o1.getPopulation()) * o1.getArea();
+        double densityModel2 = Double.parseDouble(o2.getPopulation()) * o2.getArea();
+        return Double.compare(densityModel2, densityModel1);
     }
 }

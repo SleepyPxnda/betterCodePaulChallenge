@@ -1,9 +1,25 @@
 package de.bcxp.challenge.models;
 
-public class CsvParameterDto {
+import de.bcxp.challenge.reader.interfaces.IBaseParameterDto;
+
+/**
+ * Class to hold all needed parameters to parse a csv file
+ */
+public class CsvParameterDto implements IBaseParameterDto {
+
+    /**
+     * Filepath to the csv file
+     */
     String filePath;
+
+    /**
+     * Separator used in the csv file
+     */
     char separator;
 
+    /**
+     * Representation of the data in the csv
+     */
     Class modelType;
 
     public CsvParameterDto(String filePath, char separator, Class modelType) {
